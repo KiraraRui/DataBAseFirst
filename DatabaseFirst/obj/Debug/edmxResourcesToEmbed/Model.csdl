@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DataBaseFirstModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Airport">
+    <Key>
+      <PropertyRef Name="IATA" />
+    </Key>
+    <Property Name="IATA" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Routes" Relationship="Self.FK_DestinationAirportRoute" FromRole="Airport" ToRole="Route" />
+  </EntityType>
+  <EntityType Name="FlightCompany">
+    <Key>
+      <PropertyRef Name="FlightCompanyID" />
+    </Key>
+    <Property Name="FlightCompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Routes" Relationship="Self.FK_RouteOwnerRoute" FromRole="FlightCompany" ToRole="Route" />
+    <NavigationProperty Name="Routes1" Relationship="Self.FK_RouteUserRoute" FromRole="FlightCompany" ToRole="Route" />
+  </EntityType>
+  <EntityType Name="Route">
+    <Key>
+      <PropertyRef Name="RouteID" />
+    </Key>
+    <Property Name="RouteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RouteUserID" Type="Int32" Nullable="false" />
+    <Property Name="RouteOwnerID" Type="Int32" Nullable="false" />
+    <Property Name="DestinationAirportID" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Airport" Relationship="Self.FK_DestinationAirportRoute" FromRole="Route" ToRole="Airport" />
+    <NavigationProperty Name="FlightCompany" Relationship="Self.FK_RouteOwnerRoute" FromRole="Route" ToRole="FlightCompany" />
+    <NavigationProperty Name="FlightCompany1" Relationship="Self.FK_RouteUserRoute" FromRole="Route" ToRole="FlightCompany" />
+  </EntityType>
+  <Association Name="FK_DestinationAirportRoute">
+    <End Role="Airport" Type="Self.Airport" Multiplicity="1" />
+    <End Role="Route" Type="Self.Route" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Airport">
+        <PropertyRef Name="IATA" />
+      </Principal>
+      <Dependent Role="Route">
+        <PropertyRef Name="DestinationAirportID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RouteOwnerRoute">
+    <End Role="FlightCompany" Type="Self.FlightCompany" Multiplicity="1" />
+    <End Role="Route" Type="Self.Route" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FlightCompany">
+        <PropertyRef Name="FlightCompanyID" />
+      </Principal>
+      <Dependent Role="Route">
+        <PropertyRef Name="RouteOwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RouteUserRoute">
+    <End Role="FlightCompany" Type="Self.FlightCompany" Multiplicity="1" />
+    <End Role="Route" Type="Self.Route" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FlightCompany">
+        <PropertyRef Name="FlightCompanyID" />
+      </Principal>
+      <Dependent Role="Route">
+        <PropertyRef Name="RouteUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DataBaseFirstEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Airports" EntityType="Self.Airport" />
+    <EntitySet Name="FlightCompanies" EntityType="Self.FlightCompany" />
+    <EntitySet Name="Routes" EntityType="Self.Route" />
+    <AssociationSet Name="FK_DestinationAirportRoute" Association="Self.FK_DestinationAirportRoute">
+      <End Role="Airport" EntitySet="Airports" />
+      <End Role="Route" EntitySet="Routes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RouteOwnerRoute" Association="Self.FK_RouteOwnerRoute">
+      <End Role="FlightCompany" EntitySet="FlightCompanies" />
+      <End Role="Route" EntitySet="Routes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RouteUserRoute" Association="Self.FK_RouteUserRoute">
+      <End Role="FlightCompany" EntitySet="FlightCompanies" />
+      <End Role="Route" EntitySet="Routes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

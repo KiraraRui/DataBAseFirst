@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataBaseFirstModelStoreContainer" CdmEntityContainer="DataBaseFirstEntities1">
+    <EntitySetMapping Name="Airports">
+      <EntityTypeMapping TypeName="DataBaseFirstModel.Airport">
+        <MappingFragment StoreEntitySet="Airport">
+          <ScalarProperty Name="IATA" ColumnName="IATA" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FlightCompanies">
+      <EntityTypeMapping TypeName="DataBaseFirstModel.FlightCompany">
+        <MappingFragment StoreEntitySet="FlightCompany">
+          <ScalarProperty Name="FlightCompanyID" ColumnName="FlightCompanyID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Routes">
+      <EntityTypeMapping TypeName="DataBaseFirstModel.Route">
+        <MappingFragment StoreEntitySet="Route">
+          <ScalarProperty Name="RouteID" ColumnName="RouteID" />
+          <ScalarProperty Name="RouteUserID" ColumnName="RouteUserID" />
+          <ScalarProperty Name="RouteOwnerID" ColumnName="RouteOwnerID" />
+          <ScalarProperty Name="DestinationAirportID" ColumnName="DestinationAirportID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
